@@ -2,18 +2,13 @@ package com.example.cashier_receipt_module.repository.dao
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.cashier_receipt_module.repository.models.Cashier
 
 @Dao
 interface CashierDao {
-    @Insert
-    fun insert(cashier: Cashier) {
-        Log.d("Agregando", "LLegó hasta dao")
-    }
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(cashier: Cashier)
 
     @Update
     fun update(cashier: Cashier)

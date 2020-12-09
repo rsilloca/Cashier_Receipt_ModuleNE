@@ -10,12 +10,13 @@ class CashierRepository(private val cashierDao: CashierDao) {
 
     val allCashiers: LiveData<List<Cashier>> = cashierDao.getAll()
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insert(cashier: Cashier) {
-        Log.d("Agregando", "Repository")
         cashierDao.insert(cashier)
     }
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun update(cashier: Cashier) {
         cashierDao.update(cashier)

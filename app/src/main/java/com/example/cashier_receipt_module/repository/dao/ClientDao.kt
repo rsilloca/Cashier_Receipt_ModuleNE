@@ -1,15 +1,12 @@
 package com.example.cashier_receipt_module.repository.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.cashier_receipt_module.repository.models.Client
 
 @Dao
 interface ClientDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(client: Client)
 
     @Update

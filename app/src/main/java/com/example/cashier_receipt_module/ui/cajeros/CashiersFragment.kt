@@ -29,13 +29,13 @@ class CashiersFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        cashiersViewModel = ViewModelProvider(requireActivity()).get(CashiersViewModel::class.java)
-        cashiersViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
-            cashiers.let { cashierAdapter.setCashiers(it) }
-        })
+        cashierAdapter = CashierAdapter(context!!)
         val root = inflater.inflate(R.layout.fragment_cashiers, container, false)
-        cashierAdapter = CashierAdapter(requireContext())
         initRecyclerCashiers(root)
+        cashiersViewModel = ViewModelProvider(this).get(CashiersViewModel::class.java)
+        cashiersViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
+            cashiers?.let { cashierAdapter.setCashiers(it) }
+        })
         val cashierAddBtn = root.findViewById(R.id.add_cashier_btn) as MaterialButton
         cashierAddBtn.setOnClickListener {
             (activity as MainActivity).showDialogCashier()
@@ -45,13 +45,11 @@ class CashiersFragment : Fragment() {
 
     private fun initRecyclerCashiers(fragment: View) {
         cashierRecycler = fragment.findViewById(R.id.cashier_recycler) as RecyclerView
-        // cashierRecycler.setHasFixedSize(true)
-        cashierRecycler.layoutManager = LinearLayoutManager(context)
         cashierRecycler.adapter = cashierAdapter
+        cashierRecycler.layoutManager = LinearLayoutManager(context)
     }
 
     fun addCashier(cashier: Cashier) {
-        Log.d("Agregando", "LLegó hasta aquí")
         cashiersViewModel.insert(cashier)
     }
 

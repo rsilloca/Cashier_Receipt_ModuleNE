@@ -1,15 +1,12 @@
 package com.example.cashier_receipt_module.repository.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.cashier_receipt_module.repository.models.CashReceiptIncome
 
 @Dao
 interface CashReceiptIncomeDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(cash_receipt: CashReceiptIncome)
 
     @Update

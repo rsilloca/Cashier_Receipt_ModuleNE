@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             }
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             val cashiersFragment = navHostFragment.childFragmentManager.fragments[0] as CashiersFragment?
-            (cashiersFragment)?.addCashier(
+            cashiersFragment?.addCashier(
                 Cashier(
                     0,
                     code,

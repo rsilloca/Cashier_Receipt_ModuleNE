@@ -9,37 +9,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cashier_receipt_module.R
 import com.example.cashier_receipt_module.repository.models.Cashier
 
-class CashierAdapter internal constructor(private val context: Context) : RecyclerView.Adapter<CashierAdapter.CashierViewHolder>() {
+class CashierAdapter internal constructor(context: Context) : RecyclerView.Adapter<CashierAdapter.CashierViewHolder>() {
 
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var cashiers = emptyList<Cashier>()
-    private lateinit var cashiersRecycler: RecyclerView
+
+    inner class CashierViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val name: TextView = itemView.findViewById(R.id.name_cashier)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashierViewHolder {
-        return CashierViewHolder(LayoutInflater.from(context).inflate(R.layout.item_cashier, parent, false))
+        val itemView = inflater.inflate(R.layout.item_cashier, parent, false)
+        return CashierViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: CashierViewHolder, position: Int) {
-        holder.setData(cashiers[position])
-    }
-
-    override fun getItemCount(): Int {
-        return cashiers.size
-    }
-
-    inner class CashierViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val name: TextView = itemView.findViewById(R.id.name_cashier)
-        fun setData(cashier: Cashier) {
-            name.text = cashier.Nombre
-        }
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        cashiersRecycler = recyclerView
+        val current = cashiers[position]
+        holder.name.text = current.Nombre
     }
 
     internal fun setCashiers(cashiers: List<Cashier>) {
         this.cashiers = cashiers
         notifyDataSetChanged()
     }
+
+    override fun getItemCount() = cashiers.size
+
 }
