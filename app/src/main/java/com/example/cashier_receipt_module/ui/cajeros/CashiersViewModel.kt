@@ -1,13 +1,29 @@
 package com.example.cashier_receipt_module.ui.cajeros
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.cashier_receipt_module.repository.CashierReceiptModuleDatabase
+import com.example.cashier_receipt_module.repository.models.Cashier
+import com.example.cashier_receipt_module.repository.repositories.CashierRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class CashiersViewModel : ViewModel() {
+class CashiersViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+    private val cashierRepository: CashierRepository
+    private val allCashiers: LiveData<List<Cashier>>
+
+    init {
+        val semestersDao = CashierReceiptModuleDatabase.getDatabase(application).cashierDao()
+        cashierRepository = CashierRepository(semestersDao)
+        allCashiers = cashierRepository.allCashiers
     }
-    val text: LiveData<String> = _text
+
+    fun insert(cashier: Cashier) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d("Agregando", "Repository")
+        cashierRepository.insert(cashier)
+    }
+
+    fun getAllCashiers() = allCashiers
 }

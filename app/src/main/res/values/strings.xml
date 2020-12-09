@@ -22,4 +22,5 @@
     <!-- BUTTONS -->
     <string name="button_cancel">Cancelar</string>
     <string name="button_save">Guardar</string>
+    <string name="add_cashier_btn">Agregar Cajero</string>
 </resources>
