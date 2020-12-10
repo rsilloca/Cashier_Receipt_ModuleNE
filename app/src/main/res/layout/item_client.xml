@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_atm" />
+            app:srcCompat="@drawable/ic_client" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -50,10 +50,10 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/name_paynment"
+                android:id="@+id/name_client"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nuevo Cajero"
+                android:text="Nuevo Cliente"
                 android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="16sp" />
 

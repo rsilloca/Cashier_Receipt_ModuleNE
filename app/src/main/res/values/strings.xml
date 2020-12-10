@@ -15,7 +15,7 @@
 
     <!-- LABELS -->
     <string name="title_cashiers">Cajeros</string>
-    <string name="title_add_cashier">Nuevo Cajero</string>
+    <string name="title_add_cashier">Formulario de Cajero</string>
     <string name="label_code">Código</string>
     <string name="label_name">Nombre</string>
 
@@ -23,4 +23,12 @@
     <string name="button_cancel">Cancelar</string>
     <string name="button_save">Guardar</string>
     <string name="add_cashier_btn">Agregar Cajero</string>
+    <string name="name_label">Nombre:</string>
+    <string name="title_comfirm_delete">Eliminar registro</string>
+    <string name="confirm_delete_question">¿Esta seguro de querer eliminar este registro?</string>
+    <string name="delete_button" >Eliminar</string>
+    <string name="title_add_client" >Formulario de Cliente</string>
+    <string name="add_client_btn">Agregar Cliente</string>
+    <string name="add_pay_btn">Agregar Recibo</string>
+    <string name="title_form_pay">Formulario de Recibos</string>
 </resources>
