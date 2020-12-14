@@ -23,5 +23,9 @@ class CashiersViewModel(application: Application) : AndroidViewModel(application
         cashierRepository.insert(cashier)
     }
 
+    fun update(cashier: Cashier) = viewModelScope.launch(Dispatchers.IO) {
+        cashierRepository.update(cashier)
+    }
+
     fun getAllCashiers() = allCashiers
 }

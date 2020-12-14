@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Cashier (
     @PrimaryKey(autoGenerate = true)
     val Id: Long,
-    val Codigo: String = "000000",
-    val Nombre: String = "",
-    val EstReg: String = "A"
+    var Codigo: String = "000000",
+    var Nombre: String = "Default",
+    var EstReg: String = "A"
 )

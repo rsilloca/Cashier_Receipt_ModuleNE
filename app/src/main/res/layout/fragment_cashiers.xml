@@ -19,7 +19,7 @@
         android:queryHint="Buscar" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_clients_btn"
+        android:id="@+id/add_cashier_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_cashier_btn"
@@ -35,9 +35,9 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/clients_recycler"
+            android:id="@+id/cashier_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:listitem="@layout/item_cashier"/>
 
     </ScrollView>
