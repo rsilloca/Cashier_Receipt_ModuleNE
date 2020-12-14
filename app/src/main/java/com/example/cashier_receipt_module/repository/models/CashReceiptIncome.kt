@@ -26,7 +26,7 @@ data class CashReceiptIncome(
     val Id: Long,
     val IdCashier: Long,
     val IdClient: Long,
-    val Numero: Int = 0,
-    val Monto: Double = 0.0,
-    val EstReg: String = "A"
+    var Numero: Int = 0,
+    var Monto: Double = 0.0,
+    var EstReg: String = "A"
 )
