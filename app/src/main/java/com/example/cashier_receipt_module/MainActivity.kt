@@ -57,39 +57,4 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun showDialogCashier() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_cashier, null)
-        val alertDialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .show()
-        val cancelButton = dialogView.findViewById(R.id.cancel_button) as Button
-        cancelButton.setOnClickListener {
-            alertDialog.dismiss()
-        }
-        val toggleGroup = dialogView.findViewById(R.id.toggle_button_cashier) as MaterialButtonToggleGroup
-        toggleGroup.check(R.id.active_cashier_btn)
-        val saveButton = dialogView.findViewById(R.id.save_button) as Button
-        saveButton.setOnClickListener {
-            val code = (dialogView.findViewById(R.id.input_code_cashier) as TextInputEditText).text.toString()
-            val name = (dialogView.findViewById(R.id.input_name_cashier) as TextInputEditText).text.toString()
-            val idButtonChecked = toggleGroup.checkedButtonId
-            var status = "1"
-            if (idButtonChecked == R.id.inactive_cashier_btn) {
-                status = "0"
-            } else if (idButtonChecked == R.id.deleted_cashier_btn) {
-                status = "*"
-            }
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            val cashiersFragment = navHostFragment.childFragmentManager.fragments[0] as CashiersFragment?
-            cashiersFragment?.addCashier(
-                Cashier(
-                    0,
-                    code,
-                    name,
-                    status
-                )
-            )
-            alertDialog.dismiss()
-        }
-    }
 }

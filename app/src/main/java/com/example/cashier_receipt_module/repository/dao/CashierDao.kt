@@ -7,7 +7,7 @@ import com.example.cashier_receipt_module.repository.models.Cashier
 
 @Dao
 interface CashierDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     fun insert(cashier: Cashier)
 
     @Update

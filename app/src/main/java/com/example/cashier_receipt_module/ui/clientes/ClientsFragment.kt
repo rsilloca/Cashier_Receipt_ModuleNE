@@ -22,10 +22,10 @@ class ClientsFragment : Fragment() {
         clientsViewModel =
                 ViewModelProviders.of(this).get(ClientsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_clients, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
+        /*val textView: TextView = root.findViewById(R.id.text_slideshow)
         clientsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
-        })
+        })*/
         return root
     }
 }

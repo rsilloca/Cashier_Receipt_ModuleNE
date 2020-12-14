@@ -37,7 +37,7 @@ abstract class CashierReceiptModuleDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     CashierReceiptModuleDatabase::class.java,
-                    "cashier_receipt_module_db"
+                    "cr_module_db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
