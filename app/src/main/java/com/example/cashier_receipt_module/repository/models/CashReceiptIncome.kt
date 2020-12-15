@@ -24,7 +24,7 @@ import androidx.room.PrimaryKey
 data class CashReceiptIncome(
     @PrimaryKey(autoGenerate = true)
     val Id: Long,
-    val IdCashier: Long,
+    var IdCashier: Long,
     val IdClient: Long,
     var Numero: Int = 0,
     var Monto: Double = 0.0,

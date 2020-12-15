@@ -30,10 +30,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_code_cashier"
+                android:id="@+id/input_number_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/label_code"/>
+                android:hint="Número"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,7 +60,7 @@
             app:startIconDrawable="@drawable/ic_atm_mini">
 
             <AutoCompleteTextView
-                android:id="@+id/atm_filled_exposed_dropdown"
+                android:id="@+id/cashier_filled_exposed_dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:isScrollContainer="true" />
@@ -77,7 +77,7 @@
             app:startIconDrawable="@drawable/ic_amount">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_name_cashier"
+                android:id="@+id/input_amount_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Monto"
@@ -86,26 +86,26 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggle_button_cashier"
+            android:id="@+id/toggle_button_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleSelection="true">
             <Button
-                android:id="@+id/active_cashier_btn"
+                android:id="@+id/active_payment_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Activo"
                 style="?attr/materialButtonOutlinedStyle" />
             <Button
-                android:id="@+id/inactive_cashier_btn"
+                android:id="@+id/inactive_payment_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Inactivo"
                 style="?attr/materialButtonOutlinedStyle" />
             <Button
-                android:id="@+id/deleted_cashier_btn"
+                android:id="@+id/deleted_payment_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
