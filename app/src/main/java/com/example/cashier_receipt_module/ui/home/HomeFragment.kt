@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
     ): View? {
         homeViewModel =  ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
+        // Agregar cajeros al map
         homeViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
             cashiers?.let {
                 for (cashier in it) {
@@ -42,6 +43,7 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+        // Fin agregar cajeros al map
         val addBtn = root.findViewById(R.id.add_pay_btn) as MaterialButton
         addBtn.setOnClickListener {
             showDialogPayment(false, CashReceiptIncome(0, 1, 1,0,0.0, "A"))
@@ -62,11 +64,11 @@ class HomeFragment : Fragment() {
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .show()
-        // Listar cajeros
+        // Listar cajeros en spinner
         val cashiersNameAdapter = ArrayAdapter<String>(requireContext(), R.layout.dropdown_menu_popup_item, cashiersName.keys.toList())
         val spinnerCashier = dialogView.findViewById(R.id.cashier_filled_exposed_dropdown) as AutoCompleteTextView
         spinnerCashier.setAdapter(cashiersNameAdapter)
-        // Fin listar cajeros
+        // Fin listar cajeros en spinner
         val numberEditText = dialogView.findViewById(R.id.input_number_payment) as TextInputEditText
         val amountEditText = dialogView.findViewById(R.id.input_amount_payment) as TextInputEditText
         val toggleGroup = dialogView.findViewById(R.id.toggle_button_payment) as MaterialButtonToggleGroup
@@ -85,7 +87,9 @@ class HomeFragment : Fragment() {
         saveButton.setOnClickListener {
             payment.Numero = numberEditText.text.toString() as Int
             payment.Monto = amountEditText.text.toString() as Double
+            // Asignacion de id Cajero, genera bug cuando dos cajeros tienen el mismo nombre xd
             payment.IdCashier = cashiersName[spinnerCashier.text.toString()]!!
+            // Fin asignacion de id Cajero
             payment.EstReg = when (toggleGroup.checkedButtonId){
                 R.id.active_payment_btn -> "A"
                 R.id.inactive_payment_btn -> "I"
