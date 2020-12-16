@@ -19,8 +19,8 @@ class CashReceiptIncomeAdapter internal constructor(private val context : Contex
 
         val name: TextView = itemView.findViewById(R.id.name_paynment)
         val code: TextView = itemView.findViewById(R.id.label_code)
-        val edit: ImageButton = itemView.findViewById(R.id.button_edit)
-        val delete: ImageButton = itemView.findViewById(R.id.button_delete)
+        val edit: ImageButton = itemView.findViewById(R.id.button_edit_payment)
+        val delete: ImageButton = itemView.findViewById(R.id.button_delete_payment)
 
         fun bind(cashReceiptIncome: CashReceiptIncome){
             name.text = cashReceiptIncome.Monto.toString();
@@ -35,7 +35,7 @@ class CashReceiptIncomeAdapter internal constructor(private val context : Contex
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CashReceiptIncomeViewHolder {
-        val itemView = inflater.inflate(R.layout.item_client,parent,false)
+        val itemView = inflater.inflate(R.layout.item_pay,parent,false)
         return CashReceiptIncomeViewHolder(itemView,listener)
     }
 

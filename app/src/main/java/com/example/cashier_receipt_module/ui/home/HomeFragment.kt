@@ -5,11 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -71,6 +69,9 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
         })
         // Fin agregar clientes al map
 
+        homeViewModel.getAllCashReceipts().observe(viewLifecycleOwner, Observer { payments ->
+            payments?.let{homeAdapter.setCashReceiptIncomes(it)}
+        })
 
         val addBtn = root.findViewById(R.id.add_pay_btn) as MaterialButton
         addBtn.setOnClickListener {
@@ -120,18 +121,18 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
             "I" -> toggleGroup.check(R.id.inactive_payment_btn)
             else -> toggleGroup.check(R.id.deleted_payment_btn)
         }
-        val cancelButton = dialogView.findViewById(R.id.cancel_button) as MaterialButton
+
+
+        val cancelButton = dialogView.findViewById(R.id.cancel_button) as Button
         cancelButton.setOnClickListener {
             alertDialog.dismiss()
         }
-        val saveButton = dialogView.findViewById(R.id.save_button) as MaterialButton
+        val saveButton = dialogView.findViewById(R.id.save_button) as Button
         saveButton.setOnClickListener {
-            Log.d("testingfun", "---------------------------------------------it starts here---------------------------------------------------")
-            Log.d("testingfun2",numberEditText.text.toString())
-            Log.d("testingfun3",amountEditText.text.toString())
-            Log.d("testingfun", "---------------------------------------------it ends here---------------------------------------------------")
-            payment.Numero = numberEditText.text.toString() as Int
-            payment.Monto = amountEditText.text.toString() as Double
+
+            payment.Numero = numberEditText.getText().toString().toInt()
+            payment.Monto = amountEditText.getText().toString().toDouble()
+
             // Asignacion de id Cajero, genera bug cuando dos cajeros tienen el mismo nombre xd
             payment.IdCashier = cashiersName[spinnerCashier.text.toString()]!!
             // Fin asignacion de id Cajero
@@ -171,4 +172,6 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
         if(type == 1) showDialogPayment(true,cashReceiptIncome)
         else delete (cashReceiptIncome)
     }
+
+
 }
