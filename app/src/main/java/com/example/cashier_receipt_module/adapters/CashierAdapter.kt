@@ -14,7 +14,7 @@ class CashierAdapter internal constructor(private val context: Context, private 
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private lateinit var recyclerCashiers: RecyclerView
-    private var cashiers = emptyList<Cashier>()
+    private var cashiers = emptyList<Cashier?>()
 
     class CashierViewHolder(private val itemView: View, private val listener: CashierListener) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.name_cashier)
@@ -41,7 +41,9 @@ class CashierAdapter internal constructor(private val context: Context, private 
 
     override fun onBindViewHolder(holder: CashierViewHolder, position: Int) {
         val current = cashiers[position]
-        holder.bind(current)
+        if (current != null) {
+            holder.bind(current)
+        }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -51,7 +53,7 @@ class CashierAdapter internal constructor(private val context: Context, private 
 
     override fun getItemCount() = cashiers.size
 
-    internal fun setCashiers(cashiers: List<Cashier>) {
+    internal fun setCashiers(cashiers: List<Cashier?>) {
         this.cashiers = cashiers
         notifyDataSetChanged()
     }

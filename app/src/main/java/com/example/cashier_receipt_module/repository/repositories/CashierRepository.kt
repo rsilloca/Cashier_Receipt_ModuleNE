@@ -19,4 +19,6 @@ class CashierRepository(private val cashierDao: CashierDao) {
         cashierDao.update(cashier)
     }
 
+    suspend fun searchCashiers(query: String) = cashierDao.searchCashiers(query)
+
 }

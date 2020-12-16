@@ -16,7 +16,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:background="@drawable/border_search_input"
-        android:queryHint="Buscar" />
+        android:queryHint="Código o nombre de recibo" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_pay_btn"

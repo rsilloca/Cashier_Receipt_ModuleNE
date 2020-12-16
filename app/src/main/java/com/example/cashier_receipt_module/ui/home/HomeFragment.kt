@@ -52,7 +52,9 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
         homeViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
             cashiers?.let {
                 for (cashier in it) {
-                    cashiersName[cashier.Id] = cashier.Nombre
+                    if (cashier != null) {
+                        cashiersName[cashier.Id] = cashier.Nombre
+                    }
                 }
             }
         })

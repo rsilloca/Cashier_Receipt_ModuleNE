@@ -21,4 +21,7 @@ interface CashierDao {
 
     @Query("DELETE FROM cashiers")
     fun clear()
+
+    @Query("SELECT * FROM cashiers WHERE Nombre LIKE :query")
+    fun searchCashiers(query: String): List<Cashier>
 }

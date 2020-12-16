@@ -1,6 +1,7 @@
 package com.example.cashier_receipt_module.ui.cajeros
 
 import android.app.Application
+import android.app.DownloadManager
 import androidx.lifecycle.*
 import com.example.cashier_receipt_module.repository.CashierReceiptModuleDatabase
 import com.example.cashier_receipt_module.repository.models.Cashier
@@ -26,6 +27,8 @@ class CashiersViewModel(application: Application) : AndroidViewModel(application
     fun update(cashier: Cashier) = viewModelScope.launch(Dispatchers.IO) {
         cashierRepository.update(cashier)
     }
+
+    suspend fun searchCashiers(query: String) = cashierRepository.searchCashiers(query)
 
     fun getAllCashiers() = allCashiers
 }

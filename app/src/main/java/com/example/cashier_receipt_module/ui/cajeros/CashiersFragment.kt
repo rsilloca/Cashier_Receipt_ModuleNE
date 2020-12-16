@@ -1,23 +1,30 @@
 package com.example.cashier_receipt_module.ui.cajeros
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashier_receipt_module.R
 import com.example.cashier_receipt_module.adapters.CashierAdapter
+import com.example.cashier_receipt_module.repository.CashierReceiptModuleDatabase
 import com.example.cashier_receipt_module.repository.models.Cashier
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CashiersFragment : Fragment(), CashierAdapter.CashierListener {
 
@@ -42,6 +49,44 @@ class CashiersFragment : Fragment(), CashierAdapter.CashierListener {
         cashierAddBtn.setOnClickListener {
             showDialogCashier(false, Cashier(0,"","","A"))
         }
+        val searchEditText = root.findViewById(R.id.search_view) as SearchView
+        searchEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                var all = mutableListOf<Cashier>()
+                cashiersViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
+                    cashiers?.let {
+                        if (newText.isEmpty()) {
+                            all = it as MutableList<Cashier>
+                        } else {
+                            for (cashier in it) {
+                                if (cashier.Nombre.toLowerCase().indexOf(newText.toLowerCase()) >= 0) all.add(cashier)
+                            }
+                        }
+
+                    }
+                })
+                cashierAdapter.setCashiers(all)
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                var all = mutableListOf<Cashier>()
+                cashiersViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
+                    cashiers?.let {
+                        if (query.isEmpty()) {
+                            all = it as MutableList<Cashier>
+                        } else {
+                            for (cashier in it) {
+                                if (cashier.Nombre.toLowerCase().indexOf(query.toLowerCase()) >= 0) all.add(cashier)
+                            }
+                        }
+
+                    }
+                })
+                cashierAdapter.setCashiers(all)
+                return true
+            }
+        })
         return root
     }
 
@@ -58,6 +103,14 @@ class CashiersFragment : Fragment(), CashierAdapter.CashierListener {
 
     fun updateCashier(cashier: Cashier) {
         cashiersViewModel.update(cashier)
+    }
+
+    suspend fun searchCashiers(query: String): List<Cashier> {
+        return withContext(Dispatchers.IO) {
+            val cashiersDao = CashierReceiptModuleDatabase.getDatabase(requireContext()).cashierDao()
+            val listCashiers = cashiersDao.searchCashiers("%" + query + "%")
+           listCashiers
+        }
     }
 
     fun showDialogCashier(edit: Boolean, cashier: Cashier) {
