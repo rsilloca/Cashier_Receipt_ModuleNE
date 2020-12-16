@@ -25,7 +25,7 @@ data class CashReceiptIncome(
     @PrimaryKey(autoGenerate = true)
     val Id: Long,
     var IdCashier: Long,
-    val IdClient: Long,
+    var IdClient: Long,
     var Numero: Int = 0,
     var Monto: Double = 0.0,
     var EstReg: String = "A"
