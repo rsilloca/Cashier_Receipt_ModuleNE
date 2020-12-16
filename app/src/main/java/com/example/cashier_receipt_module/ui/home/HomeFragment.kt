@@ -27,9 +27,9 @@ import com.google.android.material.textfield.TextInputEditText
 class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListener {
 
     private lateinit var homeViewModel: HomeViewModel
-    private var cashiersName = mutableMapOf<String, Long>();
+    private var cashiersName = mutableMapOf<Long, String>()
 
-    private var clientsName = mutableMapOf<String, Long>()
+    private var clientsName = mutableMapOf<Long, String>()
 
     private lateinit var homeRecycler: RecyclerView
     private lateinit var homeAdapter: CashReceiptIncomeAdapter
@@ -52,7 +52,7 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
         homeViewModel.getAllCashiers().observe(viewLifecycleOwner, Observer { cashiers ->
             cashiers?.let {
                 for (cashier in it) {
-                    cashiersName[cashier.Nombre] = cashier.Id
+                    cashiersName[cashier.Id] = cashier.Nombre
                 }
             }
         })
@@ -63,7 +63,7 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
         homeViewModel.getAllClients().observe(viewLifecycleOwner, Observer { clients ->
             clients?.let {
                 for (client in it) {
-                    clientsName[client.Nombre] = client.Id
+                    clientsName[client.Id] = client.Nombre
                 }
             }
         })
@@ -96,19 +96,36 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
     }
 
     fun showDialogPayment(edit: Boolean, payment: CashReceiptIncome) {
+        if (cashiersName.isEmpty() || clientsName.isEmpty()) {
+            val forget = if (cashiersName.isEmpty()) "Cajeros" else "Clientes"
+            AlertDialog.Builder(requireContext())
+                .setTitle("Cuidado")
+                .setMessage("Debe agregar " + forget + ".")
+                .setPositiveButton("Aceptar", null)
+                .show()
+            return
+        }
         val dialogView = layoutInflater.inflate(R.layout.dialog_paynment,null)
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .show()
         // Listar cajeros en spinner
-        val cashiersNameAdapter = ArrayAdapter<String>(requireContext(), R.layout.dropdown_menu_popup_item, cashiersName.keys.toList())
+        val cashiersNameAdapter = ArrayAdapter<String>(requireContext(), R.layout.dropdown_menu_popup_item, cashiersName.values.toList())
         val spinnerCashier = dialogView.findViewById(R.id.cashier_filled_exposed_dropdown) as AutoCompleteTextView
         spinnerCashier.setAdapter(cashiersNameAdapter)
+        spinnerCashier.setOnItemClickListener { _, _, position, _ ->
+            payment.IdCashier = cashiersName.keys.elementAt(position)
+        }
+        if (edit) spinnerCashier.setText(cashiersName[payment.IdCashier])
         // Fin listar cajeros en spinner
         // Listar clientes en spinner
-        val clientsNameAdapter = ArrayAdapter<String>(requireContext(), R.layout.dropdown_menu_popup_item, clientsName.keys.toList())
+        val clientsNameAdapter = ArrayAdapter<String>(requireContext(), R.layout.dropdown_menu_popup_item, clientsName.values.toList())
         val spinnerClient = dialogView.findViewById(R.id.client_filled_exposed_dropdown) as AutoCompleteTextView
         spinnerClient.setAdapter(clientsNameAdapter)
+        spinnerClient.setOnItemClickListener { _, _, position, _ ->
+            payment.IdClient = clientsName.keys.elementAt(position)
+        }
+        if (edit) spinnerClient.setText(clientsName[payment.IdClient])
         // Fin listar clientes en spinner
 
         val numberEditText = dialogView.findViewById(R.id.input_number_payment) as TextInputEditText
@@ -130,16 +147,8 @@ class HomeFragment : Fragment(), CashReceiptIncomeAdapter.CashReceiptIncomeListe
         val saveButton = dialogView.findViewById(R.id.save_button) as Button
         saveButton.setOnClickListener {
 
-            payment.Numero = numberEditText.getText().toString().toInt()
-            payment.Monto = amountEditText.getText().toString().toDouble()
-
-            // Asignacion de id Cajero, genera bug cuando dos cajeros tienen el mismo nombre xd
-            payment.IdCashier = cashiersName[spinnerCashier.text.toString()]!!
-            // Fin asignacion de id Cajero
-
-            // Asignacion de id Cliente, no es bug si no se dan cuenta 7u7
-            payment.IdClient = clientsName[spinnerClient.text.toString()]!!
-            // Fin asignacion de id Cliente
+            payment.Numero = numberEditText.text.toString().toInt()
+            payment.Monto = amountEditText.text.toString().toDouble()
             payment.EstReg = when (toggleGroup.checkedButtonId){
                 R.id.active_payment_btn -> "A"
                 R.id.inactive_payment_btn -> "I"
